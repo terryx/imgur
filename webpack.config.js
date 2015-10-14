@@ -22,18 +22,25 @@ module.exports = {
     stats: {
       colors: true
     },
-    quiet: true,
     hot: true
   },
 
   //loaders are webpack essential tool to bundle files
   module: {
+    preLoaders: [
+      //javascript linter
+      {
+        test: /\.(js|jsx|es6)$/,
+        exclude: /node_modules/,
+        loader: 'eslint'
+      },
+    ],
     loaders: [
       //transpile es6 to es5
       {
-        test: /\.js$/,
+        test: /\.(js|jsx|es6)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel'
       },
       //parse .scss into css
       {
@@ -46,11 +53,11 @@ module.exports = {
       {
         test: /\.(png|jpg)$/,
         exclude: /node_modules/,
-        loader: 'url-loader?limit=10000&name=images/[name].[ext]'
+        loader: 'url?limit=10000&name=images/[name].[ext]'
       }, {
         test: /\.(eot|otf|ttf)$/,
         exclude: /node_modules/,
-        loader: 'url-loader?limit=10000&name=fonts/[hash].[ext]'
+        loader: 'url?limit=10000&name=fonts/[hash].[ext]'
       }
     ]
   },
@@ -74,6 +81,6 @@ module.exports = {
 
   //allow require without file extension
   resolve: {
-    extensions: ['', '.js', '.es6']
+    extensions: ['', '.js', '.es6', '.jsx']
   }
 }
